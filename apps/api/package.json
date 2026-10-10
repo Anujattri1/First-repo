@@ -1,0 +1,26 @@
+{
+  "name": "@ta/api",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "NODE_ENV=development node --watch src/server.js",
+    "start": "node src/server.js",
+    "seed": "node src/db/seed.js",
+    "test": "node --test tests/"
+  },
+  "dependencies": {
+    "@fastify/compress": "^7.0.0",
+    "@fastify/cors": "^9.0.1",
+    "@fastify/helmet": "^11.1.1",
+    "@fastify/jwt": "^8.0.1",
+    "@fastify/rate-limit": "^9.1.0",
+    "@fastify/static": "^7.0.4",
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^11.3.0",
+    "dotenv": "^16.4.5",
+    "fastify": "^4.28.1",
+    "pino": "^9.3.2"
+  }
+}

@@ -1,0 +1,6 @@
+{"level":30,"time":1791628437696,"pid":1005,"hostname":"c-6aca1283-01ed1602-2c308c70f1d2","msg":"Titanium Army API ready (env=development)"}
+{"level":30,"time":1791628437699,"pid":1005,"hostname":"c-6aca1283-01ed1602-2c308c70f1d2","msg":"Server listening at http://0.0.0.0:8790"}
+{"level":30,"time":1791628440233,"pid":1005,"hostname":"c-6aca1283-01ed1602-2c308c70f1d2","reqId":"req-1","req":{"method":"GET","url":"/api/health","hostname":"localhost:8790","remoteAddress":"127.0.0.1","remotePort":40950},"msg":"incoming request"}
+{"level":30,"time":1791628440240,"pid":1005,"hostname":"c-6aca1283-01ed1602-2c308c70f1d2","reqId":"req-1","res":{"statusCode":200},"responseTime":6.829976000008173,"msg":"request completed"}
+{"level":30,"time":1791628440249,"pid":1005,"hostname":"c-6aca1283-01ed1602-2c308c70f1d2","reqId":"req-2","req":{"method":"POST","url":"/api/auth/login","hostname":"localhost:8790","remoteAddress":"127.0.0.1","remotePort":40952},"msg":"incoming request"}
+{"level":30,"time":1791628440250,"pid":1005,"hostname":"c-6aca1283-01ed1602-2c308c70f1d2","reqId":"req-2","res":{"statusCode":429},"responseTime":1.0798770000692457,"msg":"request completed"}
