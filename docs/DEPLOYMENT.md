@@ -94,3 +94,20 @@ Cloudflare dashboard → Caching → **Purge Everything** (or purge by URL prefi
 ## Rollback
 Deploy the previous release tag; the schema uses only additive `CREATE TABLE IF NOT EXISTS`
 migrations, so old data always loads on newer code. Never drop columns in-place — add new ones.
+
+---
+
+## Cloudflare Pages — Quick Deploy (this repo: `attrim27/First-repo`)
+
+**Production branch:** `main` · **Framework:** None · **Node version env var:** `NODE_VERSION = 20`
+
+| Setting | Value |
+|---|---|
+| Build command | `npm run pages:build` |
+| Build output directory | `dist` |
+| Root directory | `public` (holds `_headers` + `_redirects`) |
+| Env vars | `NODE_VERSION=20` |
+
+`npm run pages:build` bundles `apps/web → dist/`, copies edge headers into `dist/_headers`, and generates `public/_redirects` that proxies `/api/*` to the Workers API origin (`first-project.attrim27-16d.workers.dev`) with a path-preserving splat rule. Pushes to `main` auto-deploy; every PR gets a preview URL.
+
+API side (Workers + D1): create the D1 database, paste its id into `wrangler.toml`, apply `worker/schema.sql` + seed, set `JWT_SECRET`, then `npm run deploy:worker`. See Option A2 above for the full walkthrough.
