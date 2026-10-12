@@ -10,6 +10,8 @@
     "dev": "npm run dev -w @ta/api",
     "start": "npm run start -w @ta/api",
     "build": "node scripts/copy-frontend.mjs",
+    "pages:build": "node scripts/copy-frontend.mjs",
+    "seed:d1:local": "bash scripts/seed-d1-local.sh",
     "seed": "npm run seed -w @ta/api",
     "test": "npm test -w @ta/api",
     "build:worker": "node scripts/copy-frontend.mjs",
