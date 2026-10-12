@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Titanium Army | Admin Dashboard</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <style>
+    :root{--bg:#070a0d;--panel:#11171c;--line:#2c373d;--lime:#c8ff39;--text:#f5f8f5;--muted:#98a69f;--red:#ff6969}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 100% 0,#263619 0,transparent 28%),var(--bg);color:var(--text);font:14px/1.45 system-ui,Arial,sans-serif}
+    button,input,textarea,select{font:inherit}button{border:0;border-radius:8px;background:var(--lime);color:#101500;padding:10px 13px;font-weight:800;cursor:pointer}
+    button.secondary{background:#273239;color:white}button.remove{background:#45282b;color:#ffb5ae;padding:6px 8px;font-size:12px}
+    .login{min-height:100vh;display:grid;place-items:center}.login-card{width:min(410px,calc(100% - 32px));background:#10161a;border:1px solid #364238;border-radius:18px;padding:34px;box-shadow:0 25px 80px #0009}
+    .brand{font-weight:900;font-size:18px;letter-spacing:.08em}.brand b{color:var(--lime)}.kicker{color:var(--lime);letter-spacing:.12em;font-size:11px;font-weight:bold;margin:26px 0 7px}
+    .login h1{margin:0;font-size:29px}.muted{color:var(--muted)}
+    label{display:block;color:#c2cbc5;font-weight:bold;font-size:12px;margin:17px 0 6px}
+    input,textarea,select{width:100%;padding:10px 11px;color:var(--text);background:#0b0f12;border:1px solid #354047;border-radius:8px}textarea{min-height:82px;resize:vertical}
+    .login button{width:100%;margin-top:19px}.help{font-size:12px;margin:16px 0 0;padding:10px;background:#1b2420;border-radius:8px;color:#c9d1cc}
+    .app{display:grid;grid-template-columns:225px 1fr;min-height:100vh}.side{background:#0c1013;border-right:1px solid var(--line);padding:26px 14px;position:sticky;top:0;height:100vh}
+    .user{margin:25px 8px;background:#1c2816;border:1px solid #455c30;color:#dfff8c;padding:9px;border-radius:8px;font-size:12px}
+    .nav{display:grid;gap:4px}.nav button{background:transparent;color:#aab6af;text-align:left}
+    .nav button.active,.nav button:hover{color:var(--lime);background:#20282d}
+    .out{position:absolute;bottom:22px;left:23px;right:23px}
+    .main{padding:30px;max-width:1400px;width:100%;margin:auto}.top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:25px}
+    .top h1{margin:0;font-size:27px}.view{display:none}.view.active{display:block}
+    .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}.card,.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
+    .value{font-size:29px;font-weight:bold;margin:10px 0}.green{color:var(--lime);font-size:12px}
+    .two{display:grid;grid-template-columns:1.25fr .75fr;gap:15px;margin-top:20px}.panel h2{font-size:17px;margin:0 0 14px}
+    .activity p{border-left:2px solid var(--lime);padding-left:10px}.activity small{color:var(--muted)}
+    .toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px;gap:10px;flex-wrap:wrap}
+    .table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse}.table th{text-align:left;color:var(--muted);font-size:11px;padding:0 8px 10px}
+    .table td{padding:12px 8px;border-top:1px solid #283137;vertical-align:top}
+    .tag{font-size:11px;font-weight:bold;border-radius:5px;background:#2c3b1c;color:#ddff98;padding:4px 6px}.tag.draft{background:#24313a;color:#a9daf3}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.wide{grid-column:1/-1}
+    .actions{display:flex;justify-content:flex-end;gap:8px;margin-top:15px}
+    .notice{position:fixed;bottom:22px;right:22px;opacity:0;transition:.2s;transform:translateY(12px);background:#e1ff94;color:#172000;padding:11px 14px;border-radius:8px;font-weight:bold}
+    .notice.show{opacity:1;transform:none}.notice.error{background:#ffd9d3;color:#4d0e0e}
+    @media(max-width:850px){.app{grid-template-columns:1fr}.side{position:static;height:auto;padding:16px;border-right:0;border-bottom:1px solid var(--line)}
+    .user{display:none}.nav{grid-template-columns:repeat(3,1fr);margin-top:15px}.out{position:static;margin:14px 8px 0}.main{padding:24px 16px}
+    .metrics{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}}
+    @media(max-width:470px){.metrics,.form-grid{grid-template-columns:1fr}.wide{grid-column:auto}.nav{grid-template-columns:repeat(2,1fr)}}
+  </style>
+</head>
+<body>
+  <!-- LOGIN -->
+  <section class="login" id="login">
+    <form class="login-card" id="loginForm">
+      <div class="brand">TITANIUM <b>ARMY</b></div>
+      <div class="kicker">CONTROL ROOM</div>
+      <h1>Welcome back.</h1>
+      <p class="muted">Sign in to manage your science hub.</p>
+      <label for="email">Email</label>
+      <input id="email" type="email" autocomplete="username" required>
+      <label for="password">Password</label>
+      <input id="password" type="password" autocomplete="current-password" required>
+      <button type="submit">Sign in to dashboard →</button>
+      <p id="error" style="display:none;color:#ffaaa2"></p>
+      <p class="help">Authentication is handled by the API (<code>POST /api/auth/login</code>) using bcrypt-hashed passwords and JWT sessions — nothing is stored in this browser except the session token.</p>
+    </form>
+  </section>
+
+  <!-- APP -->
+  <div class="app" id="app" hidden>
+    <aside class="side">
+      <div class="brand">TITANIUM <b>ARMY</b></div>
+      <div class="user">● <span id="roleBadge">ADMIN MODE</span><br><span id="currentUser">…</span></div>
+      <nav class="nav">
+        <button class="active" data-page="overview">▦ Overview</button>
+        <button data-page="videos">▶ Videos</button>
+        <button data-page="content">✎ Site content</button>
+        <button data-page="users" id="navUsers">♙ Users</button>
+        <button data-page="settings">⚙ Settings</button>
+      </nav>
+      <button class="secondary out" id="logout">Sign out</button>
+    </aside>
+
+    <main class="main">
+      <header class="top">
+        <div><div class="kicker" style="margin:0 0 5px">DASHBOARD</div><h1 id="title">Overview</h1></div>
+        <span class="muted" id="date"></span>
+      </header>
+
+      <!-- OVERVIEW -->
+      <section class="view active" id="overview">
+        <div class="metrics">
+          <div class="card"><span class="muted">Published videos</span><div class="value" id="published">–</div></div>
+          <div class="card"><span class="muted">Draft videos</span><div class="value" id="drafts">–</div></div>
+          <div class="card"><span class="muted">Registered users</span><div class="value" id="userTotal">–</div></div>
+          <div class="card"><span class="muted">Total videos</span><div class="value" id="videoTotalCard">–</div></div>
+        </div>
+        <div class="two">
+          <div class="panel"><h2>Latest videos</h2><div class="table-wrap"><table class="table"><thead><tr><th>VIDEO</th><th>STATUS</th><th>VIEWS</th></tr></thead><tbody id="latestRows"></tbody></table></div></div>
+          <div class="panel activity"><h2>Recent activity</h2><div id="activityList"></div></div>
+        </div>
+      </section>
+
+      <!-- VIDEOS -->
+      <section class="view" id="videos">
+        <div class="panel">
+          <h2 id="videoFormTitle">Add a video</h2>
+          <form id="videoForm" class="form-grid">
+            <div><label>Title</label><input id="vTitle" required maxlength="140"></div>
+            <div><label>Category</label><select id="vCategory"><option>EXTREME SCIENCE</option><option>SURVIVAL</option><option>TECHNOLOGY</option><option>GADGETS</option></select></div>
+            <div class="wide"><label>Description</label><textarea id="vDescription" maxlength="500"></textarea></div>
+            <div><label>Video / YouTube link</label><input id="vUrl" type="url" placeholder="https://..."></div>
+            <div><label>Thumbnail URL</label><input id="vThumb" type="url" placeholder="https://..."></div>
+            <div><label>Status</label><select id="vStatus"><option value="published">Published</option><option value="draft">Draft</option></select></div>
+            <div><label>Views label</label><input id="vViews" placeholder="e.g. 3.2M"></div>
+            <div class="wide actions"><button type="button" class="secondary" id="videoReset">Clear</button><button id="videoSubmit">Add video</button></div>
+          </form>
+        </div>
+        <div class="panel" style="margin-top:20px">
+          <div class="toolbar"><h2 style="margin:0">Video library</h2><span class="muted" id="videoTotal"></span></div>
+          <div class="table-wrap"><table class="table"><thead><tr><th>VIDEO</th><th>CATEGORY</th><th>STATUS</th><th>ACTION</th></tr></thead><tbody id="videoRows"></tbody></table></div>
+        </div>
+      </section>
+
+      <!-- CONTENT -->
+      <section class="view" id="content">
+        <form id="contentForm" class="panel">
+          <h2>Website content</h2>
+          <div class="form-grid">
+            <div class="wide"><label>Hero headline</label><input id="heroTitle" required></div>
+            <div class="wide"><label>Hero description</label><textarea id="heroText" required></textarea></div>
+            <div class="wide"><label>About text</label><textarea id="aboutText"></textarea></div>
+            <div><label>Official channel URL</label><input id="channelUrl" type="url"></div>
+            <div><label>Footer label</label><input id="footerLabel"></div>
+          </div>
+          <div class="actions"><button>Save website content</button></div>
+        </form>
+        <div class="panel" style="margin-top:20px"><h2>Preview</h2>
+          <div style="padding:24px;background:linear-gradient(120deg,#25351a,#101a1f);border-radius:9px">
+            <div class="kicker" style="margin:0 0 8px">UNOFFICIAL FAN-MADE SCIENCE HUB</div>
+            <h1 id="previewTitle" style="margin:0 0 8px"></h1><p class="muted" id="previewText"></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- USERS -->
+      <section class="view" id="users">
+        <div class="two">
+          <form id="userForm" class="panel">
+            <h2>Create a user</h2>
+            <label>Name</label><input id="uName" required>
+            <label>Email</label><input id="uEmail" type="email" required>
+            <label>Password (min 8 chars)</label><input id="uPassword" type="password" required minlength="8">
+            <label>Role</label><select id="uRole"><option value="member">Member</option><option value="editor">Editor</option><option value="admin">Admin</option></select>
+            <div class="actions"><button>Create user</button></div>
+          </form>
+          <div class="panel"><h2>Security notes</h2>
+            <p class="muted">• Passwords are hashed with bcrypt on the server — never stored or sent in plain text after creation.</p>
+            <p class="muted">• Sessions use signed JWT tokens that expire automatically.</p>
+            <p class="muted">• Editors can manage videos/content/settings; only admins can manage users.</p>
+          </div>
+        </div>
+        <div class="panel" style="margin-top:20px">
+          <div class="toolbar"><h2 style="margin:0">Users</h2><span class="muted" id="peopleTotal"></span></div>
+          <div class="table-wrap"><table class="table"><thead><tr><th>NAME</th><th>EMAIL</th><th>ROLE</th><th>STATUS</th><th>ACTION</th></tr></thead><tbody id="userRows"></tbody></table></div>
+        </div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section class="view" id="settings">
+        <form class="panel" id="settingsForm">
+          <h2>Site settings</h2>
+          <div class="form-grid">
+            <div><label>Site name</label><input id="siteName"></div>
+            <div><label>Accent colour</label><input id="accent" type="color"></div>
+            <div class="wide"><label>Notification email</label><input id="notificationEmail" type="email"></div>
+            <div class="wide"><label>SEO meta description</label><textarea id="seoDescription"></textarea></div>
+          </div>
+          <div class="actions"><button>Save settings</button></div>
+        </form>
+        <form class="panel" id="passwordForm" style="margin-top:20px">
+          <h2>Change my password</h2>
+          <div class="form-grid">
+            <div><label>Current password</label><input id="curPass" type="password" required autocomplete="current-password"></div>
+            <div><label>New password (min 8)</label><input id="newPass" type="password" required minlength="8" autocomplete="new-password"></div>
+          </div>
+          <div class="actions"><button>Update password</button></div>
+        </form>
+      </section>
+    </main>
+  </div>
+  <div class="notice" id="notice"></div>
+
+  <script type="module" src="/admin/admin.js"></script>
+</body>
+</html>
