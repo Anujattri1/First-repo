@@ -1,0 +1,3 @@
+# Local development secrets for `wrangler dev` (Workers runtime).
+# Copy to `.dev.vars` and fill in real values. NEVER commit `.dev.vars`.
+JWT_SECRET=replace-with-a-long-random-string-openssl-rand-hex-32
