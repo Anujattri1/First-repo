@@ -1,0 +1,35 @@
+# ---------------------------------------------------------------------------
+# Titanium Army — Cloudflare Workers configuration.
+# Deploys the API + static frontend to your free *.workers.dev subdomain
+# (no purchased domain needed), backed by D1 (database) and KV (rate limits).
+# Docs: https://developers.cloudflare.com/workers/wrangler/configuration/
+# ---------------------------------------------------------------------------
+name = "titanium-army"
+main = "worker/index.js"
+compatibility_date = "2024-11-01"
+
+# Serve the static site from the Worker itself (single origin, no CORS pain).
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+
+# D1 database binding used by apps/api/src/workers/handler.js
+[[d1_databases]]
+binding = "DB"
+database_name = "titanium-army"
+database_id = "REPLACE_WITH_YOUR_D1_ID"   # shown by: npx wrangler d1 create titanium-army
+
+# KV namespace for login rate-limiting + cache purge markers
+[[kv_namespaces]]
+binding = "CACHE_KV"
+id = "REPLACE_WITH_YOUR_KV_ID"            # shown by: npx wrangler kv namespace create CACHE_KV
+
+# Secrets (set with `npx wrangler secret put NAME` — never commit values):
+#   JWT_SECRET   — long random string, e.g. `openssl rand -hex 32`
+# Plain-text vars:
+[vars]
+NODE_ENV = "production"
+
+# Optional cron warm-up (keeps edge caches fresh under heavy traffic):
+[triggers]
+crons = ["*/10 * * * *"]

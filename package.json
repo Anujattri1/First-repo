@@ -1,0 +1,28 @@
+{
+  "name": "titanium-army",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Titanium Army — modern full-stack rebuild (Fastify API + static frontend, Cloudflare Workers compatible)",
+  "workspaces": [
+    "apps/api"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w @ta/api",
+    "start": "npm run start -w @ta/api",
+    "build": "node scripts/copy-frontend.mjs",
+    "pages:build": "node scripts/copy-frontend.mjs",
+    "seed:d1:local": "bash scripts/seed-d1-local.sh",
+    "seed": "npm run seed -w @ta/api",
+    "test": "npm test -w @ta/api",
+    "build:worker": "node scripts/copy-frontend.mjs",
+    "deploy:worker": "npm run build:worker && wrangler deploy",
+    "d1:create": "wrangler d1 create titanium-army",
+    "d1:schema": "wrangler d1 execute titanium-army --remote --file=./worker/schema.sql",
+    "kv:create": "wrangler kv namespace create CACHE_KV",
+    "dev:worker": "npm run build:worker && wrangler dev",
+    "secret:jwt": "wrangler secret put JWT_SECRET"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
